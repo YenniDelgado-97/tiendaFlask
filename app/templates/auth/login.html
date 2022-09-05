@@ -1,0 +1,43 @@
+{% extends "./base.html" %}
+
+{% block title %} Inicio de Sesión {% endblock %}
+
+{% block customCSS %}
+<link rel="Stylesheet" href="{{ url_for('static',filename='css/login.css')}}">
+<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Slackey" />
+<link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    
+    <h1 class="comics-title">COMICS WORLD SHOP</h1>
+
+
+
+<form class="form-signin">
+    
+    <h2 class="login">Inicio De Sesión</h2>
+    <div>
+    <label for="inputEmail" class="sr-only">Email</label>
+    <input type="email" id="inputEmail" class="form-control" placeholder="Email" required autofocus><br>
+    
+    </div>
+
+
+    <label for="inputPassword" class="sr-only">Contraseña</label>
+    <input type="password" id="inputPassword" class="form-control" placeholder="Contraseña" required>
+    <div class="checkbox mb-3">
+    
+    <h6 class="sign-in-title">¿No tienes cuenta?</h6>
+    <a href="./paginatributo.html">Regístrate aquí</a>
+
+    </div>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Ingresar
+    </button>
+    <p class="mt-5 mb-3 text-muted">&copy; 2017-2022</p>
+</form>
+
+</div>
+
+{% endblock %}
