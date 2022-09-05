@@ -1,4 +1,6 @@
-from flask import Flask,render_template
+from crypt import methods
+from urllib import request
+from flask import Flask,render_template,request
 
 app = Flask(__name__)
 
@@ -6,9 +8,19 @@ app = Flask(__name__)
 def index():
     return render_template("index.html")
 
-@app.route("/login")
+@app.route("/login",methods=['GET','POST'])
 def login():
-    return render_template("auth/login.html")
+    """
+    print(request.method)
+    print(request.form["usuario"])
+    print(request.form["password"])
+    """
+    if request.method=='POST':
+        print(request.form["usuario"])
+        print(request.form["password"])
+        return "ok"
+    else:
+        return render_template("auth/login.html")
 
 def pagina_no_encontrada(error):
     return render_template("errores/404.html"),404
