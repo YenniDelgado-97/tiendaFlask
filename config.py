@@ -1,9 +1,6 @@
-from ast import Pass
-from distutils.debug import DEBUG
-
 
 class config:
-    Pass
+    SECRET_KEY='rocketscoders2022'
     
 class DevelopmentConfig(config):
     DEBUG=True

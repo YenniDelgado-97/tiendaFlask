@@ -16,15 +16,16 @@
 
 
 <form class="form-signin" action="/login" method="POST">
-    
+
+    <input type='hidden' name='csrf_token' value="{{ csrf_token() }}">
     <h2 class="login">Inicio De Sesi&oacute;n</h2>
     <label for="usuario" class="sr-only">Usuario</label>
-    <input type="text" id="usuario" name="usuario" class="form-control" placeholder="Usuario" required autofocus><br>
+    <input type="text" id="usuario" name="usuario" class="form-control" placeholder="Usuario" minlength="6" maxlength="20" required autofocus><br>
     
     <br>
 
     <label for="password" class="sr-only">Contraseña</label>
-    <input type="password" id="password" name="password"class="form-control" placeholder="Contraseña" required>
+    <input type="password" id="password" name="password"class="form-control" placeholder="Contraseña" minlength="6" maxlength="20" required>
     <div class="checkbox mb-3">
     
     <h6 class="sign-in-title">¿No tienes cuenta?</h6>

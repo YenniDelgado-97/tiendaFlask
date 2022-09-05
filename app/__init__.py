@@ -1,8 +1,11 @@
 from crypt import methods
 from urllib import request
-from flask import Flask,render_template,request
+from flask import Flask,render_template,request,url_for,redirect
+from flask_wtf.csrf import CSRFProtect
 
 app = Flask(__name__)
+
+csrf= CSRFProtect()
 
 @app.route("/")
 def index():
@@ -16,9 +19,12 @@ def login():
     print(request.form["password"])
     """
     if request.method=='POST':
-        print(request.form["usuario"])
-        print(request.form["password"])
-        return "ok"
+        #print(request.form["usuario"])
+        #print(request.form["password"])
+        if request.form['usuario'] == 'admin1' and request.form['password'] == '123456':
+            return redirect(url_for('index'))
+        else:
+            return render_template("auth/login.html")
     else:
         return render_template("auth/login.html")
 
@@ -28,5 +34,6 @@ def pagina_no_encontrada(error):
 
 def inicializar_app(config):
     app.config.from_object(config)
+    csrf.init_app(app)
     app.register_error_handler(404,pagina_no_encontrada)
     return app
