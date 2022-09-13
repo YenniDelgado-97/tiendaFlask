@@ -51,8 +51,10 @@ def listar_comics():
             sql="SELECT isbn,titulo,anoedicion FROM comic"
             cursor.execute(sql)
             data= cursor.fetchall()
-            print(data)
-            return "OK"
+            data={
+                "comics":data}
+            #return "OK. Numero de libros:{0}".format(len(data))
+            return render_template('listado_comics.html', data=data)
         except Exception as ex:
             raise Exception(ex)
 
