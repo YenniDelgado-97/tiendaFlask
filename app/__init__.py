@@ -1,11 +1,16 @@
 from crypt import methods
+from sqlite3 import Cursor
 from urllib import request
 from flask import Flask,render_template,request,url_for,redirect
+from flask_mysqldb import MySQL
 from flask_wtf.csrf import CSRFProtect
+
+from .models.modelocomic import modelocomic
 
 app = Flask(__name__)
 
 csrf= CSRFProtect()
+db= MySQL(app)
 
 @app.route("/")
 def index():
@@ -28,6 +33,29 @@ def login():
     else:
         return render_template("auth/login.html")
 
+@app.route('/comics')
+# def listar_comics():
+#     try:
+#         comics= modelocomic.listar_comics(db)
+#         data={
+#             'comics': comics
+#         }
+#         return render_template('listado_comics.html', data=data)
+#         print(ex)
+#     except Exception as ex:
+#         print(ex)
+# 
+def listar_comics():
+        try:
+            cursor=db.connection.cursor()
+            sql="SELECT isbn,titulo,anoedicion FROM comic"
+            cursor.execute(sql)
+            data= cursor.fetchall()
+            print(data)
+            return "OK"
+        except Exception as ex:
+            raise Exception(ex)
+
 def pagina_no_encontrada(error):
     return render_template("errores/404.html"),404
 
@@ -36,4 +64,4 @@ def inicializar_app(config):
     app.config.from_object(config)
     csrf.init_app(app)
     app.register_error_handler(404,pagina_no_encontrada)
-    return app
+    return app 
