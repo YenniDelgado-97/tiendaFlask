@@ -1,4 +1,4 @@
-class comic():
+class Comic():
 
     def __init__(self, isbn, titulo, autor, anoedicion, precio):
         self.isbn = isbn

@@ -5,8 +5,11 @@ from flask import Flask,render_template,request,url_for,redirect
 from flask_mysqldb import MySQL
 from flask_wtf.csrf import CSRFProtect
 
+from .models.ModeloUsuario import ModeloUsuario
 
-from .models.modelocomic import modelocomic
+from .models.ModeloComic import ModeloComic
+
+from .models.entidades.Usuario import Usuario
 
 app = Flask(__name__)
 
@@ -28,10 +31,14 @@ def login():
     print(request.form["usuario"])
     print(request.form["password"])
     """
-    if request.method=='POST':
+    if request.method == 'POST':
         #print(request.form["usuario"])
         #print(request.form["password"])
-        if request.form['usuario'] == 'admin1' and request.form['password'] == '123456':
+        
+        #esta es la variable usuario
+        usuario= Usuario(None,request.form['usuario'],request.form['password'],None)
+        usuario_logeado = ModeloUsuario.login(db,usuario)
+        if usuario_logeado != None:
             return redirect(url_for('index'))
         else:
             return render_template("auth/login.html")
@@ -41,7 +48,7 @@ def login():
 @app.route('/comics')
 def listar_comics():
     try:
-        comics=modelocomic.listar_comics(db)
+        comics=ModeloComic.listar_comics(db)
         data= {
             'comics': comics
         } 

@@ -1,9 +1,9 @@
 from ast import AugStore
-from .entidades.autor import autor
-from .entidades.comic import comic
+from .entidades.Autor import Autor
+from .entidades.Comic import Comic
 
 
-class modelocomic():
+class ModeloComic():
 
     @classmethod
     def listar_comics(self, db):
@@ -18,8 +18,8 @@ class modelocomic():
             data = cursor.fetchall()
             comics = []
             for row in data:
-                aut = autor(0, row[4], row[5])
-                com = comic(row[0], row[1], aut, row[2], row[3])
+                aut = Autor(0, row[4], row[5])
+                com = Comic(row[0], row[1], aut, row[2], row[3])
                 comics.append(com)
             return comics
 

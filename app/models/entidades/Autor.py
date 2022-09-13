@@ -1,4 +1,4 @@
-class autor():
+class Autor():
 
     def __init__(self, id, apellidos, nombre):
         self.id = id

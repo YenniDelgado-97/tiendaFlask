@@ -1,4 +1,4 @@
-class compra():
+class Compra():
 
     def __init__(self, uuid, comic, usuario, fecha=None):
         self.uuid = uuid
