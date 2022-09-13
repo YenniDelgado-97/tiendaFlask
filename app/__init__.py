@@ -48,7 +48,10 @@ def login():
 def listar_comics():
         try:
             cursor=db.connection.cursor()
-            sql="SELECT isbn,titulo,anoedicion FROM comic"
+            sql="""SELECT COM.isbn,COM.titulo,COM.anoedicion,COM.precio,
+                AUT.apellidos,AUT.nombre
+                FROM comic COM JOIN autor AUT ON COM.autor_id= AUT.id 
+                ORDER BY COM.titulo ASC"""
             cursor.execute(sql)
             data= cursor.fetchall()
             data={
