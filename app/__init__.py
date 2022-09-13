@@ -34,32 +34,16 @@ def login():
         return render_template("auth/login.html")
 
 @app.route('/comics')
-# def listar_comics():
-#     try:
-#         comics= modelocomic.listar_comics(db)
-#         data={
-#             'comics': comics
-#         }
-#         return render_template('listado_comics.html', data=data)
-#         print(ex)
-#     except Exception as ex:
-#         print(ex)
-# 
 def listar_comics():
-        try:
-            cursor=db.connection.cursor()
-            sql="""SELECT COM.isbn,COM.titulo,COM.anoedicion,COM.precio,
-                AUT.apellidos,AUT.nombre
-                FROM comic COM JOIN autor AUT ON COM.autor_id= AUT.id 
-                ORDER BY COM.titulo ASC"""
-            cursor.execute(sql)
-            data= cursor.fetchall()
-            data={
-                "comics":data}
-            #return "OK. Numero de libros:{0}".format(len(data))
-            return render_template('listado_comics.html', data=data)
-        except Exception as ex:
-            raise Exception(ex)
+    try:
+        comics=modelocomic.listar_comics(db)
+        data= {
+            'comics': comics
+        } 
+        return render_template('listado_comics.html', data=data)
+    
+    except Exception as ex:
+        print(ex)
 
 def pagina_no_encontrada(error):
     return render_template("errores/404.html"),404
