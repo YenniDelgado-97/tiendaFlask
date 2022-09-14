@@ -4,17 +4,22 @@ from urllib import request
 from flask import Flask,render_template,request,url_for,redirect
 from flask_mysqldb import MySQL
 from flask_wtf.csrf import CSRFProtect
+from flask_login  import LoginManager,login_user
 
 from .models.ModeloUsuario import ModeloUsuario
-
 from .models.ModeloComic import ModeloComic
-
 from .models.entidades.Usuario import Usuario
 
 app = Flask(__name__)
 
 csrf= CSRFProtect()
 db= MySQL(app)
+login_manager_app= LoginManager(app)
+
+@login_manager_app.user_loader
+def load_user(id):
+    return ModeloUsuario.obtener_por_id(db,id)
+
 
 @app.route("/")
 def index():
@@ -39,6 +44,7 @@ def login():
         usuario= Usuario(None,request.form['usuario'],request.form['password'],None)
         usuario_logeado = ModeloUsuario.login(db,usuario)
         if usuario_logeado != None:
+            login_user(usuario_logeado)
             return redirect(url_for('index'))
         else:
             return render_template("auth/login.html")
