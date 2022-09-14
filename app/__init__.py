@@ -4,7 +4,7 @@ from urllib import request
 from flask import Flask,render_template,request,url_for,redirect
 from flask_mysqldb import MySQL
 from flask_wtf.csrf import CSRFProtect
-from flask_login  import LoginManager,login_user
+from flask_login  import LoginManager,login_user,logout_user
 
 from .models.ModeloUsuario import ModeloUsuario
 from .models.ModeloComic import ModeloComic
@@ -50,6 +50,12 @@ def login():
             return render_template("auth/login.html")
     else:
         return render_template("auth/login.html")
+    
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
+    
 
 @app.route('/comics')
 def listar_comics():
