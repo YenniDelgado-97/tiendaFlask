@@ -1,7 +1,8 @@
 from crypt import methods
+from curses import flash
 from sqlite3 import Cursor
 from urllib import request
-from flask import Flask,render_template,request,url_for,redirect
+from flask import Flask,render_template,request,url_for,redirect,flash
 from flask_mysqldb import MySQL
 from flask_wtf.csrf import CSRFProtect
 from flask_login  import LoginManager,login_user,logout_user
@@ -37,16 +38,13 @@ def login():
     print(request.form["password"])
     """
     if request.method == 'POST':
-        #print(request.form["usuario"])
-        #print(request.form["password"])
-        
-        #esta es la variable usuario
         usuario= Usuario(None,request.form['usuario'],request.form['password'],None)
         usuario_logeado = ModeloUsuario.login(db,usuario)
         if usuario_logeado != None:
             login_user(usuario_logeado)
             return redirect(url_for('index'))
         else:
+            flash('usuario o contraseña invalidas')
             return render_template("auth/login.html")
     else:
         return render_template("auth/login.html")
@@ -54,6 +52,7 @@ def login():
 @app.route('/logout')
 def logout():
     logout_user()
+    flash('cerraste sesión exitosamente.')
     return redirect(url_for('login'))
     
 

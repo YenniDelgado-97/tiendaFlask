@@ -10,32 +10,55 @@
 
 {% block body %}
 <div class="container">
-    
+
     <h1 class="comics-title">COMICS WORLD SHOP</h1>
 
 
 
-<form class="form-signin" action="/login" method="POST">
+    <form class="form-signin" action="/login" method="POST">
 
-    <input type='hidden' name='csrf_token' value="{{ csrf_token() }}">
-    <h2 class="login">Inicio De Sesi&oacute;n</h2>
-    <label for="usuario" class="sr-only">Usuario</label>
-    <input type="text" id="usuario" name="usuario" class="form-control" placeholder="Usuario" minlength="6" maxlength="20" required autofocus><br>
-    
-    <br>
+        <input type='hidden' name='csrf_token' value="{{ csrf_token() }}">
+        <h2 class="login">Inicio De Sesi&oacute;n</h2>
+        <label for="usuario" class="sr-only">Usuario</label>
+        <input type="text" id="usuario" name="usuario" class="form-control" placeholder="Usuario" minlength="6"
+            maxlength="20" required autofocus><br>
 
-    <label for="password" class="sr-only">Contraseña</label>
-    <input type="password" id="password" name="password"class="form-control" placeholder="Contraseña" minlength="6" maxlength="20" required>
-    <div class="checkbox mb-3">
-    
-    <h6 class="sign-in-title">¿No tienes cuenta?</h6>
-    <a href="./paginatributo.html">Regístrate aquí</a>
+        <br>
 
-    </div>
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Ingresar
-    </button>
-    <p class="mt-5 mb-3 text-muted">&copy; 2022</p>
-</form>
+        <label for="password" class="sr-only">Contraseña</label>
+        <input type="password" id="password" name="password" class="form-control" placeholder="Contraseña" minlength="6"
+            maxlength="20" required>
+        <div class="checkbox mb-3">
+
+            <h6 class="sign-in-title">¿No tienes cuenta?</h6>
+            <a href="./paginatributo.html">Regístrate aquí</a>
+
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Ingresar
+        </button>
+
+        {% with messages = get_flashed_messages() %}
+
+        {% if messages %}
+        
+        <br/>
+
+        {% for message in messages %}
+
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>{{ message }}</strong> 
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        {%endfor%}
+
+        {% endif%}
+
+        {% endwith %}
+        <p class="mt-5 mb-3 text-muted">&copy; 2022</p>
+    </form>
 
 </div>
 
