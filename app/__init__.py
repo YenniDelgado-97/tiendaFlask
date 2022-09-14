@@ -43,9 +43,10 @@ def login():
         usuario_logeado = ModeloUsuario.login(db,usuario)
         if usuario_logeado != None:
             login_user(usuario_logeado)
+            flash(MENSAJE_BIENVENIDA, 'success')
             return redirect(url_for('index'))
         else:
-            flash(LOGIN_CREDENCIALESINVALIDAS)
+            flash(LOGIN_CREDENCIALESINVALIDAS,'warning' )
             return render_template("auth/login.html")
     else:
         return render_template("auth/login.html")
@@ -53,7 +54,7 @@ def login():
 @app.route('/logout')
 def logout():
     logout_user()
-    flash(LOGOUT)
+    flash(LOGOUT, 'success')
     return redirect(url_for('login'))
     
 
