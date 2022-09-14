@@ -10,6 +10,7 @@ from flask_login  import LoginManager,login_user,logout_user
 from .models.ModeloUsuario import ModeloUsuario
 from .models.ModeloComic import ModeloComic
 from .models.entidades.Usuario import Usuario
+from .consts import *
 
 app = Flask(__name__)
 
@@ -44,7 +45,7 @@ def login():
             login_user(usuario_logeado)
             return redirect(url_for('index'))
         else:
-            flash('usuario o contraseña invalidas')
+            flash(LOGIN_CREDENCIALESINVALIDAS)
             return render_template("auth/login.html")
     else:
         return render_template("auth/login.html")
@@ -52,7 +53,7 @@ def login():
 @app.route('/logout')
 def logout():
     logout_user()
-    flash('cerraste sesión exitosamente.')
+    flash(LOGOUT)
     return redirect(url_for('login'))
     
 
