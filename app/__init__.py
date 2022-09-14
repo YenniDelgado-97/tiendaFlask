@@ -5,7 +5,7 @@ from urllib import request
 from flask import Flask,render_template,request,url_for,redirect,flash
 from flask_mysqldb import MySQL
 from flask_wtf.csrf import CSRFProtect
-from flask_login  import LoginManager,login_user,logout_user
+from flask_login  import LoginManager,login_user,logout_user,login_required
 
 from .models.ModeloUsuario import ModeloUsuario
 from .models.ModeloComic import ModeloComic
@@ -24,6 +24,7 @@ def load_user(id):
 
 
 @app.route("/")
+@login_required
 def index():
     return render_template("index.html")
 
@@ -59,6 +60,7 @@ def logout():
     
 
 @app.route('/comics')
+@login_required
 def listar_comics():
     try:
         comics=ModeloComic.listar_comics(db)
@@ -73,9 +75,13 @@ def listar_comics():
 def pagina_no_encontrada(error):
     return render_template("errores/404.html"),404
 
+def pagina_no_autorizada(error):
+    return redirect(url_for('login'))
+
 
 def inicializar_app(config):
     app.config.from_object(config)
     csrf.init_app(app)
+    app.register_error_handler(401,pagina_no_autorizada)
     app.register_error_handler(404,pagina_no_encontrada)
     return app 
