@@ -5,7 +5,7 @@ from urllib import request
 from flask import Flask,render_template,request,url_for,redirect,flash
 from flask_mysqldb import MySQL
 from flask_wtf.csrf import CSRFProtect
-from flask_login  import LoginManager,login_user,logout_user,login_required
+from flask_login  import LoginManager,login_user,logout_user,login_required,current_user
 
 from .models.ModeloUsuario import ModeloUsuario
 from .models.ModeloComic import ModeloComic
@@ -21,15 +21,6 @@ login_manager_app= LoginManager(app)
 @login_manager_app.user_loader
 def load_user(id):
     return ModeloUsuario.obtener_por_id(db,id)
-
-
-@app.route("/")
-@login_required
-def index():
-    return render_template("index.html")
-
-
-
 
 
 @app.route("/login",methods=['GET','POST'])
@@ -58,6 +49,26 @@ def logout():
     flash(LOGOUT, 'success')
     return redirect(url_for('login'))
     
+
+@app.route("/")
+@login_required
+def index():
+    if current_user.is_authenticated:
+        if current_user.tipousuario.id == 1:
+            comics_vendidos=[]
+            data={
+                'titulo':'Comics Vendidos',
+                'comics_vendidos': comics_vendidos
+            }
+        else:
+            compras=[]
+            data={
+                'titulo':'Mis compras',
+                'compras': compras
+            }
+        return render_template("index.html", data=data)
+    else:
+        return redirect(url_for('login'))
 
 @app.route('/comics')
 @login_required
