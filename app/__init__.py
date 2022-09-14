@@ -76,6 +76,7 @@ def listar_comics():
     try:
         comics=ModeloComic.listar_comics(db)
         data= {
+            'titulo':'Listado de comics',
             'comics': comics
         } 
         return render_template('listado_comics.html', data=data)
