@@ -46,6 +46,20 @@
     {% else %}
 
     {% if data.compras | length > 0 %}
+    {% for c in data.compras %}
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+            <div class="card mb-4 shadow-sm">
+                {% set url = 'imagenes/portadas/'+ c.comic.isbn + '.jpg' %}
+                <img class="card-imagenes-top" src="{{ url_for('static', filename=url)}}" height="320"  alt="{{ c.comic. titulo }}" />
+                <div class="card-body">
+                    <h5 class="card-title">{{c.comic.titulo}} <span style="float: right">USD/ {{c.comic.precio}}</span></h5>
+                    <p class="card-text">Comprado:{{c.formatted_date()}}</p>
+
+                </div>
+            </div>
+
+        </div>
+        {% endfor %}
 
     {% else %}
     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">

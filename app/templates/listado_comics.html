@@ -20,7 +20,7 @@
                 {% set url = 'imagenes/portadas/'+ l.isbn + '.jpg' %}
                 <img class="card-imagenes-top" src="{{ url_for('static', filename=url)}}" height="320"  alt="{{ l. titulo }}" />
                 <div class="card-body">
-                    <h5 class="card-title">{{l.titulo}}</h5>
+                    <h5 class="card-title">{{l.titulo}} <span style="float: right">USD/ {{l.precio}}</span></h5>
                     <p class="card-text">{{l.autor.nombre_completo()}}</p>
                     <button id="{{ l.isbn }}" class="btn btn-block btn-primary btnComprarComic">Comprar</button>
 
