@@ -82,7 +82,7 @@ def listar_comics():
         return render_template('listado_comics.html', data=data)
     
     except Exception as ex:
-        print(ex)
+        return render_template('errores/error.html',mensaje=format(ex))
 
 def pagina_no_encontrada(error):
     return render_template("errores/404.html"),404
