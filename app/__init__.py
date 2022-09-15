@@ -2,7 +2,7 @@ from crypt import methods
 from curses import flash
 from sqlite3 import Cursor
 from urllib import request
-from flask import Flask,render_template,request,url_for,redirect,flash
+from flask import Flask,render_template,request,url_for,redirect,flash,jsonify
 from flask_mysqldb import MySQL
 from flask_wtf.csrf import CSRFProtect
 from flask_login  import LoginManager,login_user,logout_user,login_required,current_user
@@ -84,6 +84,20 @@ def listar_comics():
     except Exception as ex:
         return render_template('errores/error.html',mensaje=format(ex))
 
+@app.route('/comprarComic', methods=['POST'])
+@login_required
+def comprar_comic():
+    data_request=request.get_json()
+    print(data_request)
+    data={}
+    try:
+        #comic=Comic()
+        data['exito']= True
+    except Exception as ex:
+        data['mensaje']= format(ex)
+        data['exito']= False
+    return jsonify (data)  
+        
 def pagina_no_encontrada(error):
     return render_template("errores/404.html"),404
 
