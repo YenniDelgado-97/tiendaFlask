@@ -6,3 +6,4 @@ class Comic():
         self.autor = autor
         self.anoedicion = anoedicion
         self.precio = precio
+        self.unidades_vendidas = 0

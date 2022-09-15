@@ -62,18 +62,28 @@ def logout():
 def index():
     if current_user.is_authenticated:
         if current_user.tipousuario.id == 1:
-            comics_vendidos = []
-            data = {
-                'titulo': 'Comics Vendidos',
-                'comics_vendidos': comics_vendidos
-            }
+            try:
+                comics_vendidos = ModeloComic.listar_comics_vendidos(db)
+                data = {
+                    'titulo': 'Comics Vendidos',
+                    'comics_vendidos': comics_vendidos
+                }
+                return render_template("index.html", data=data)
+                
+            except Exception as ex:
+                return render_template('errores/error.html', mensaje=format(ex))
+
         else:
-            compras = ModeloCompra.listar_compras_usuario(db,current_user)
-            data = {
-                'titulo': 'Mis compras',
-                'compras': compras
-            }
-        return render_template("index.html", data=data)
+            try:
+                
+                compras = ModeloCompra.listar_compras_usuario(db,current_user)
+                data = {
+                    'titulo': 'Mis compras',
+                    'compras': compras
+                }
+                return render_template("index.html", data=data)
+            except Exception as ex:
+                    return render_template('errores/error.html', mensaje=format(ex))                 
     else:
         return redirect(url_for('login'))
 

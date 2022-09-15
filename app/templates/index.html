@@ -2,17 +2,24 @@
 
 {% block title %}Index{% endblock %}
 
+{% block customCSS%}
+
+<link rel="stylesheet" href="{{url_for('static', filename='css/index.css')}}">
+
+{% endblock %}
+
 {% block container %}
+
 <div class="row">
     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
         <h1>Tienda De Comics"Comics World Shop"</h1>
         {% with messages = get_flashed_messages() %}
 
         {% if messages %}
-        <br/>
+        <br />
         {% for message in messages %}
         <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <strong>{{ message }}</strong> 
+            <strong>{{ message }}</strong>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -25,7 +32,7 @@
     </div>
 </div>
 
-<hr/>
+<hr />
 
 <div class="row">
     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
@@ -36,30 +43,68 @@
 
     {% if data.comics_vendidos | length > 0 %}
 
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Libro</th>
+                        <th>Unidades Vendidas</th>
+                        <th>Precio Unit.</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% set contador = namespace(total=0) %}
+                    {% for l in data.comics_vendidos %}
+                    <tr>
+                        <td>{{loop.index}}</td>
+                        <td>{{l.titulo}}</td>
+                        <td>{{l.unidades_vendidas}}</td>
+                        <td>usd/{{l.precio}}</td>
+                        <td>usd/{{(l.precio * l.unidades_vendidas)}}</td>
+                    </tr>
+
+                    {%set contador.total = contador.total + (l.precio * l.unidades_vendidas)%}
+                    {% endfor %}
+                    <tr>
+                        <td colspan="4"></td>
+                        <td>usd/{{contador.total}}</td>
+                    </tr>
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+
+
     {% else %}
     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
         <h2>a&uacute;n no existen comics vendidos.</h2>
 
     </div>
     {% endif %}
-    
+
     {% else %}
 
     {% if data.compras | length > 0 %}
     {% for c in data.compras %}
-        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
-            <div class="card mb-4 shadow-sm">
-                {% set url = 'imagenes/portadas/'+ c.comic.isbn + '.jpg' %}
-                <img class="card-imagenes-top" src="{{ url_for('static', filename=url)}}" height="320"  alt="{{ c.comic. titulo }}" />
-                <div class="card-body">
-                    <h5 class="card-title">{{c.comic.titulo}} <span style="float: right">USD/ {{c.comic.precio}}</span></h5>
-                    <p class="card-text">Comprado:{{c.formatted_date()}}</p>
+    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+        <div class="card mb-4 shadow-sm">
+            {% set url = 'imagenes/portadas/'+ c.comic.isbn + '.jpg' %}
+            <img class="card-imagenes-top" src="{{ url_for('static', filename=url)}}" height="320"
+                alt="{{ c.comic. titulo }}" />
+            <div class="card-body">
+                <h5 class="card-title">{{c.comic.titulo}} <span style="float: right">USD/ {{c.comic.precio}}</span></h5>
+                <p class="card-text">Comprado:{{c.formatted_date()}}</p>
 
-                </div>
             </div>
-
         </div>
-        {% endfor %}
+
+    </div>
+    {% endfor %}
 
     {% else %}
     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
