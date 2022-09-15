@@ -6,6 +6,7 @@ from flask import Flask, render_template, request, url_for, redirect, flash, jso
 from flask_mysqldb import MySQL
 from flask_wtf.csrf import CSRFProtect
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
+from flask_mail import Mail
 
 from .models.ModeloCompra import ModeloCompra
 from .models.ModeloUsuario import ModeloUsuario
@@ -21,6 +22,7 @@ app = Flask(__name__)
 csrf = CSRFProtect()
 db = MySQL(app)
 login_manager_app = LoginManager(app)
+mail=Mail()
 
 
 @login_manager_app.user_loader
@@ -129,6 +131,7 @@ def pagina_no_autorizada(error):
 def inicializar_app(config):
     app.config.from_object(config)
     csrf.init_app(app)
+    mail.init_app(app)
     app.register_error_handler(401, pagina_no_autorizada)
     app.register_error_handler(404, pagina_no_encontrada)
     return app
